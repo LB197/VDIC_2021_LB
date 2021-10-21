@@ -1,0 +1,50 @@
+TOOL:	xrun	19.09-s003: Started on Oct 15, 2021 at 15:04:06 CEST
+xrun
+	-elaborate
+	-l xrun_elaborate.log
+	-F tb.f
+		-F ./dut.f
+			tinyalu_dut/single_cycle_add_and_xor.vhd
+			tinyalu_dut/three_cycle_mult.vhd
+			tinyalu_dut/tinyalu.vhd
+			-v93
+		tinyalu_tb.sv
+	-v93
+	-define DEBUG
+	+nowarnDSEM2009
+	+nowarnDSEMEL
+	+nowarnCGDEFN
+	-xmlibdirname INCA_libs_gui
+	+access+r
+	+gui
+	+overwrite
+	-nocopyright
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+		Caching library 'worklib' ....... Done
+	Top level design units:
+		top
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.top:sv <0x075c8fd7>
+			streams:  12, words: 15390
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		              Instances  Unique
+	VHDL Design hierarchy:
+		Components:           3       3
+		Processes:            9       9
+		Signals:             16      16
+	Verilog Design hierarchy:
+		Modules:              1       1
+		Registers:           18      18
+		Scalar wires:         3       -
+		Expanded wires:      19       3
+		Initial blocks:       3       3
+		Final blocks:         1       1
+		Cont. assignments:    0       1
+		Pseudo assignments:   3       3
+		Assertions:           1       1
+	Writing initial simulation snapshot: worklib.top:sv
+TOOL:	xrun	19.09-s003: Exiting on Oct 15, 2021 at 15:04:06 CEST  (total: 00:00:00)

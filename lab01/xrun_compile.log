@@ -1,0 +1,32 @@
+TOOL:	xrun	19.09-s003: Started on Oct 21, 2021 at 12:10:27 CEST
+xrun
+	-compile
+	-l xrun_compile.log
+	-F dut_lab01.f
+		mtm_Alu.vp
+		mtm_Alu_tb.sv
+	-v93
+	+nowarnDSEM2009
+	+nowarnDSEMEL
+	+nowarnCGDEFN
+	-xmlibdirname INCA_libs_gui
+	+access+r
+	+gui
+	+overwrite
+	-nocopyright
+file: ./mtm_Alu.vp
+	module worklib.mtm_Alu:vp
+		errors: 0, warnings: 0
+		errors: 0, warnings: 0
+		errors: 0, warnings: 0
+		errors: 0, warnings: 0
+file: ./mtm_Alu_tb.sv
+			CRC = calculate_CRCin(A_data, B_data, op_set);
+			                                           |
+xmvlog: *W,ENUMERR (./mtm_Alu_tb.sv,111|46): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+			expected_value = get_expected(A_data, B_data, op_set);
+			                                                   |
+xmvlog: *W,ENUMERR (./mtm_Alu_tb.sv,142|54): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+	module worklib.mtm_Alu_tb:sv
+		errors: 0, warnings: 2
+TOOL:	xrun	19.09-s003: Exiting on Oct 21, 2021 at 12:10:28 CEST  (total: 00:00:01)

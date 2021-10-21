@@ -1,0 +1,49 @@
+TOOL:	xrun	19.09-s003: Started on Oct 21, 2021 at 12:10:28 CEST
+xrun
+	-elaborate
+	-l xrun_elaborate.log
+	-F dut_lab01.f
+		mtm_Alu.vp
+		mtm_Alu_tb.sv
+	-v93
+	+nowarnDSEM2009
+	+nowarnDSEMEL
+	+nowarnCGDEFN
+	-xmlibdirname INCA_libs_gui
+	+access+r
+	+gui
+	+overwrite
+	-nocopyright
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Top level design units:
+		mtm_Alu_tb
+	Building instance overlay tables: ....
+			CRC = calculate_CRCin(A_data, B_data, op_set);
+			                                           |
+xmelab: *W,ENUMERR (./mtm_Alu_tb.sv,111|46): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+			expected_value = get_expected(A_data, B_data, op_set);
+			                                                   |
+xmelab: *W,ENUMERR (./mtm_Alu_tb.sv,142|54): This assignment is a violation of SystemVerilog strong typing rules for enumeration datatypes.
+................ Done
+	Generating native compiled code:
+			streams:   7, words:  4287
+			streams:   9, words: 28418
+			streams:   7, words:  3741
+		worklib.mtm_Alu_tb:sv <0x67be4ec1>
+			streams:  14, words: 28515
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 5       5
+		Registers:             106     106
+		Scalar wires:            8       -
+		Vectored wires:          2       -
+		Always blocks:          12      12
+		Initial blocks:          3       3
+		Final blocks:            1       1
+		Pseudo assignments:      2       2
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.mtm_Alu_tb:sv
+TOOL:	xrun	19.09-s003: Exiting on Oct 21, 2021 at 12:10:28 CEST  (total: 00:00:00)

@@ -1,0 +1,35 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
++nowarnDSEM2009
++nowarnDSEMEL
++nowarnCGDEFN
+-amsdlibdir
+./INCA_libs/AMSD
+-NOWARN
+DSEM2009
+-NOWARN
+DSEMEL
+-NOWARN
+CGDEFN
+-NOCOPYRIGHT
+-MESSAGES
++EMGRLOG
+xrun_test_lab01.log
+-XLSTIME
+1634222966
+-XLKEEP
+-XLMODE
+./INCA_libs/run.lnx86.19.09.d
+-RUNMODE
+-CDSLIB
+./INCA_libs/run.lnx86.19.09.d/cds.lib
+-HDLVAR
+./INCA_libs/run.lnx86.19.09.d/hdl.var
+-XLNAME
+xrun
+-XLVERSION
+"TOOL:	xrun	19.09-s003"
+-XLNAME
+./INCA_libs/run.lnx86.19.09.d/cadence25_4465

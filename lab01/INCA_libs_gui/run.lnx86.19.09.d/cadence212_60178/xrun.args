@@ -1,0 +1,20 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-F
+dut_lab01.f
+-v93
++nowarnDSEM2009
++nowarnDSEMEL
++nowarnCGDEFN
+-xmlibdirname
+INCA_libs_gui
++access+r
++gui
++overwrite
+-nocopyright
+-covtest
+lab01
+-l
+xrun_gui.log

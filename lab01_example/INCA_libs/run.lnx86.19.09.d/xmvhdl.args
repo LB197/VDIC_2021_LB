@@ -1,0 +1,26 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-XLMODE
+./INCA_libs/run.lnx86.19.09.d
+-RUNMODE
+-amsdlibdir
+./INCA_libs/AMSD
+./tinyalu_dut/single_cycle_add_and_xor.vhd
+./tinyalu_dut/three_cycle_mult.vhd
+./tinyalu_dut/tinyalu.vhd
+-V93
+-NOWARN
+DSEM2009
+-NOWARN
+DSEMEL
+-NOWARN
+CGDEFN
+-NOCOPYRIGHT
+-CDSLIB
+./INCA_libs/run.lnx86.19.09.d/cdsrun.lib
+-HDLVAR
+./INCA_libs/run.lnx86.19.09.d/hdlrun.var
+-MESSAGES
+-UPDATE

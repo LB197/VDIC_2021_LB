@@ -1,0 +1,43 @@
+TOOL:	xrun	19.09-s003: Started on Oct 15, 2021 at 15:04:06 CEST
+xrun
+	-compile
+	-l xrun_compile.log
+	-F tb.f
+		-F ./dut.f
+			tinyalu_dut/single_cycle_add_and_xor.vhd
+			tinyalu_dut/three_cycle_mult.vhd
+			tinyalu_dut/tinyalu.vhd
+			-v93
+		tinyalu_tb.sv
+	-v93
+	-define DEBUG
+	+nowarnDSEM2009
+	+nowarnDSEMEL
+	+nowarnCGDEFN
+	-xmlibdirname INCA_libs_gui
+	+access+r
+	+gui
+	+overwrite
+	-nocopyright
+file: ./tinyalu_tb.sv
+	module worklib.top:sv
+		errors: 0, warnings: 0
+./tinyalu_dut/single_cycle_add_and_xor.vhd:
+	errors: 0, warnings: 0
+./tinyalu_dut/three_cycle_mult.vhd:
+	errors: 0, warnings: 0
+./tinyalu_dut/tinyalu.vhd:
+	errors: 0, warnings: 0
+WORKLIB.SINGLE_CYCLE (entity):
+	streams: 13, words: 975
+WORKLIB.SINGLE_CYCLE:ADD_AND_XOR (architecture):
+	streams: 1, words: 114
+WORKLIB.THREE_CYCLE (entity):
+	streams: 11, words: 760
+WORKLIB.THREE_CYCLE:MULT (architecture):
+	streams: 1, words: 926
+WORKLIB.TINYALU (entity):
+	streams: 13, words: 985
+WORKLIB.TINYALU:RTL (architecture):
+	streams: 3, words: 3578
+TOOL:	xrun	19.09-s003: Exiting on Oct 15, 2021 at 15:04:06 CEST  (total: 00:00:00)

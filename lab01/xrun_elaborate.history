@@ -1,0 +1,2 @@
+s1(21Oct2021:12:10:28):  xrun -compile -l xrun_compile.log -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright 
+s2(21Oct2021:12:10:28):  xrun -elaborate -l xrun_elaborate.log -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright 

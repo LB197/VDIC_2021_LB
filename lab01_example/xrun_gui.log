@@ -1,0 +1,157 @@
+TOOL:	xrun	19.09-s003: Started on Oct 15, 2021 at 15:04:06 CEST
+xrun
+	-F tb.f
+		-F ./dut.f
+			tinyalu_dut/single_cycle_add_and_xor.vhd
+			tinyalu_dut/three_cycle_mult.vhd
+			tinyalu_dut/tinyalu.vhd
+			-v93
+		tinyalu_tb.sv
+	-v93
+	-define DEBUG
+	+nowarnDSEM2009
+	+nowarnDSEMEL
+	+nowarnCGDEFN
+	-xmlibdirname INCA_libs_gui
+	+access+r
+	+gui
+	+overwrite
+	-nocopyright
+	-l xrun_gui.log
+
+-------------------------------------
+Relinquished control to SimVision...
+xcelium> 
+xcelium> source /cad/XCELIUM1909/tools/xcelium/files/xmsimrc
+xcelium> database -open waves -into waves.shm -default
+Created default SHM database waves
+xcelium> probe -create -shm top.A top.B top.clk top.done top.op top.op_set top.reset_n top.result top.start top.test_result
+Created probe 1
+xcelium> run
+0 DEBUG: reset_alu
+120 DEBUG: get_expected(9,255,4)
+Test passed for A=9 B=255 op_set=4
+240 DEBUG: get_expected(197,229,1)
+Test passed for A=197 B=229 op_set=1
+260 DEBUG: reset_alu
+520 DEBUG: get_expected(202,0,3)
+Test passed for A=202 B=0 op_set=3
+560 DEBUG: get_expected(65,0,2)
+Test passed for A=65 B=0 op_set=2
+620 DEBUG: reset_alu
+680 DEBUG: get_expected(79,255,1)
+Test passed for A=79 B=255 op_set=1
+720 DEBUG: get_expected(21,217,2)
+Test passed for A=21 B=217 op_set=2
+760 DEBUG: get_expected(0,255,2)
+Test passed for A=0 B=255 op_set=2
+780 DEBUG: reset_alu
+820 DEBUG: reset_alu
+880 DEBUG: get_expected(208,255,1)
+Test passed for A=208 B=255 op_set=1
+920 DEBUG: get_expected(12,200,1)
+Test passed for A=12 B=200 op_set=1
+940 DEBUG: reset_alu
+1000 DEBUG: get_expected(255,255,1)
+Test passed for A=255 B=255 op_set=1
+1080 DEBUG: get_expected(255,88,1)
+Test passed for A=255 B=88 op_set=1
+1100 DEBUG: reset_alu
+1160 DEBUG: get_expected(255,255,3)
+Test passed for A=255 B=255 op_set=3
+1200 DEBUG: get_expected(255,0,3)
+Test passed for A=255 B=0 op_set=3
+1220 DEBUG: reset_alu
+1280 DEBUG: get_expected(218,181,1)
+Test passed for A=218 B=181 op_set=1
+1300 DEBUG: reset_alu
+1360 DEBUG: get_expected(255,220,2)
+Test passed for A=255 B=220 op_set=2
+1400 DEBUG: get_expected(195,78,2)
+Test passed for A=195 B=78 op_set=2
+1420 DEBUG: reset_alu
+1480 DEBUG: get_expected(0,0,1)
+Test passed for A=0 B=0 op_set=1
+1520 DEBUG: get_expected(0,219,3)
+Test passed for A=0 B=219 op_set=3
+1580 DEBUG: reset_alu
+1620 DEBUG: reset_alu
+1780 DEBUG: get_expected(41,0,4)
+Test passed for A=41 B=0 op_set=4
+1800 DEBUG: reset_alu
+1860 DEBUG: get_expected(94,213,3)
+Test passed for A=94 B=213 op_set=3
+1900 DEBUG: get_expected(55,192,2)
+Test passed for A=55 B=192 op_set=2
+1920 DEBUG: reset_alu
+1960 DEBUG: reset_alu
+2000 DEBUG: reset_alu
+2060 DEBUG: get_expected(80,53,1)
+Test passed for A=80 B=53 op_set=1
+2100 DEBUG: get_expected(197,0,1)
+Test passed for A=197 B=0 op_set=1
+2140 DEBUG: get_expected(255,0,3)
+Test passed for A=255 B=0 op_set=3
+2180 DEBUG: get_expected(168,161,2)
+Test passed for A=168 B=161 op_set=2
+2200 DEBUG: reset_alu
+2300 DEBUG: get_expected(255,255,2)
+Test passed for A=255 B=255 op_set=2
+2320 DEBUG: reset_alu
+2380 DEBUG: get_expected(180,255,1)
+Test passed for A=180 B=255 op_set=1
+2400 DEBUG: reset_alu
+2520 DEBUG: get_expected(0,169,4)
+Test passed for A=0 B=169 op_set=4
+2560 DEBUG: get_expected(251,255,1)
+Test passed for A=251 B=255 op_set=1
+2580 DEBUG: reset_alu
+2640 DEBUG: get_expected(0,155,3)
+Test passed for A=0 B=155 op_set=3
+2680 DEBUG: get_expected(0,75,2)
+Test passed for A=0 B=75 op_set=2
+2720 DEBUG: get_expected(13,0,2)
+Test passed for A=13 B=0 op_set=2
+2840 DEBUG: get_expected(0,255,2)
+Test passed for A=0 B=255 op_set=2
+2920 DEBUG: get_expected(255,200,1)
+Test passed for A=255 B=200 op_set=1
+2940 DEBUG: reset_alu
+3040 DEBUG: get_expected(237,255,1)
+Test passed for A=237 B=255 op_set=1
+3100 DEBUG: reset_alu
+3160 DEBUG: get_expected(81,42,3)
+Test passed for A=81 B=42 op_set=3
+3200 DEBUG: get_expected(131,0,2)
+Test passed for A=131 B=0 op_set=2
+3240 DEBUG: get_expected(104,255,2)
+Test passed for A=104 B=255 op_set=2
+3260 DEBUG: reset_alu
+3460 DEBUG: get_expected(98,225,4)
+Test passed for A=98 B=225 op_set=4
+3480 DEBUG: reset_alu
+3640 DEBUG: get_expected(0,59,4)
+Test passed for A=0 B=59 op_set=4
+3660 DEBUG: reset_alu
+3760 DEBUG: get_expected(0,13,2)
+Test passed for A=0 B=13 op_set=2
+3800 DEBUG: get_expected(158,123,3)
+Test passed for A=158 B=123 op_set=3
+3820 DEBUG: reset_alu
+4020 DEBUG: get_expected(140,0,4)
+Test passed for A=140 B=0 op_set=4
+4040 DEBUG: reset_alu
+4140 DEBUG: get_expected(73,0,2)
+Test passed for A=73 B=0 op_set=2
+4200 DEBUG: reset_alu
+4280 DEBUG: reset_alu
+4340 DEBUG: get_expected(255,0,3)
+Test passed for A=255 B=0 op_set=3
+4380 DEBUG: get_expected(0,57,3)
+Test passed for A=0 B=57 op_set=3
+Test PASSED.
+Simulation complete via $finish(1) at time 4380 NS + 0
+./tinyalu_tb.sv:145     $finish;
+xcelium> ^C
+xcelium> exit
+TOOL:	xrun	19.09-s003: Exiting on Oct 15, 2021 at 15:05:33 CEST  (total: 00:01:27)

@@ -1,0 +1,12 @@
+s1(21Oct2021:12:10:28):  xrun -compile -l xrun_compile.log -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright 
+s2(21Oct2021:12:10:28):  xrun -elaborate -l xrun_elaborate.log -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright 
+s3(21Oct2021:12:10:28):  xrun -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -covtest lab01 -l xrun_gui.log 
+s4(21Oct2021:12:10:43):  xrun -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -covtest lab01 -l xrun_gui.log "-s " 
+s5(21Oct2021:12:11:17):  xrun -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -covtest lab01 -l xrun_gui.log -s 
+s6(21Oct2021:12:23:59):  xrun -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -covtest lab01 -l xrun_gui.log -s 
+s7(21Oct2021:12:34:05):  xrun -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -covtest lab01 -l xrun_gui.log -s 
+s8(21Oct2021:12:36:57):  xrun -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -covtest lab01 -l xrun_gui.log -s 
+s9(21Oct2021:12:39:14):  xrun -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -covtest lab01 -l xrun_gui.log -s 
+s10(21Oct2021:12:41:56):  xrun -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -covtest lab01 -l xrun_gui.log -s 
+s11(21Oct2021:13:00:48):  xrun -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -covtest lab01 -l xrun_gui.log -s 
+s12(21Oct2021:13:17:15):  xrun -F dut_lab01.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -covtest lab01 -l xrun_gui.log -s 
