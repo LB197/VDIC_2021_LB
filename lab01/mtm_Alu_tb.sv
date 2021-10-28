@@ -16,8 +16,7 @@ module mtm_Alu_tb();
 	bit                 clk;
 	bit                 rst_n;
 	bit                 sin;
-	bit                 sout;
-	operation_t         op_code;
+	logic                 sout; //TODO change to logic
 
 	string             test_result = "PASSED";
 
@@ -61,8 +60,6 @@ module mtm_Alu_tb();
 			3'b011 : return sub_op;
 			3'b100 : return operation_t'(3'b010);
 			3'b101 : return operation_t'(3'b011);
-//          3'b110 : return operation_t'(3'b110);
-//          3'b111 : return operation_t'(3'b111);
 		endcase // case (op_choice)
 	endfunction : get_op
 
@@ -134,7 +131,7 @@ module mtm_Alu_tb();
 		end
 	endtask : send_data_to_input
 
-	task read_packet (output bit [7:0] output_8b_data, output packet_type_t packet_type);
+	task read_packet (output logic [7:0] output_8b_data, output packet_type_t packet_type);
 		integer i;
 		begin
 			wait(sout == 1'b0);
@@ -147,21 +144,21 @@ module mtm_Alu_tb();
 
 	endtask : read_packet
 
-	task read_data_from_output(output [31:0] C, output [7:0] ctl);
+	task read_data_from_output(output logic [31:0] C, output logic [7:0] ctl);
 		integer i;
-		bit [7:0] data_out[5];
+		logic [7:0] data_out[5];
 		packet_type_t data_type[5];
 
 		begin
 			read_packet(data_out[0], data_type[0]);
 			case (data_type[0])
-				DATA: begin: no_error
+				DATA: begin// no_error
 					for (i = 1; i < 5; i = i + 1)
 						read_packet(data_out[i], data_type[i]);
 					C = {data_out[0], data_out[1], data_out[2], data_out[3]};
 					ctl = data_out[4][7:0];
 				end
-				CTL: begin: error
+				CTL: begin// error
 					ctl = data_out[0][7:0];
 				end
 			endcase
@@ -178,7 +175,7 @@ module mtm_Alu_tb();
 		bit [31:0] A_data, B_data, C, Cexp, expected_value;
 		bit [43:0] A_packet, B_packet;
 		bit [98:0] data_in, data_prep;
-		bit [54:0] data_out;
+		logic [54:0] data_out;
 		bit ERR_CRC, ERR_OP, ERR_DATA, ERR_BIT;
 		bit [5:0] error_flags, error_exp;
 		bit parity, parity_exp;
@@ -204,7 +201,7 @@ module mtm_Alu_tb();
 			ERR_BIT  =  1'b0;
 
 			op_set = get_op();
-				
+
 			allzeroone = 4'($random);
 			if(allzeroone == 4'h0) begin
 				A_data = 32'h00000000;
@@ -216,7 +213,7 @@ module mtm_Alu_tb();
 				A_data = get_data();
 				B_data = get_data();
 			end
-			
+
 			if (2'($random) == 0) ERR_BIT = 1'b1;
 			if ((op_set == 3'b010) || (op_set == 3'b011)) ERR_OP = 1'b1;
 			if (2'($random) == 0) ERR_CRC = 1'b1;
