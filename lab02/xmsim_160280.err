@@ -1,0 +1,49 @@
+csi-xmsim - CSI: Command line:
+xmsim
+    -f /home/student/lblach/VDIC_2021_LB/lab02/INCA_libs_gui/run.lnx86.19.09.d/cadence212_160280/xmsim.args
+        +nowarnDSEM2009
+        +nowarnDSEMEL
+        +nowarnCGDEFN
+        +access+r
+        +gui
+        -amsdlibdir ./INCA_libs_gui/AMSD
+        -NOWARN DSEM2009
+        -NOWARN DSEMEL
+        -NOWARN CGDEFN
+        -gui
+        -NOCOPYRIGHT
+        -TCL
+        -MESSAGES
+        +EMGRLOG xrun_gui.log
+        -XLSTIME 1635882844
+        -XLKEEP
+        -XLMODE ./INCA_libs_gui/run.lnx86.19.09.d
+        -RUNMODE
+        -CDSLIB ./INCA_libs_gui/run.lnx86.19.09.d/cds.lib
+        -HDLVAR ./INCA_libs_gui/run.lnx86.19.09.d/hdl.var
+        -XLNAME xrun
+        -XLVERSION TOOL:	xrun	19.09-s003
+        -XLNAME ./INCA_libs_gui/run.lnx86.19.09.d/cadence212_160280
+    -CHECK_VERSION TOOL:	xrun	19.09-s003
+    -LOG_FD 4
+    -LOG_FD_NAME xrun_gui.log
+    -cmdnopsim
+    -runlock /home/student/lblach/VDIC_2021_LB/lab02/INCA_libs_gui/run.lnx86.19.09.d/.xmlib.lock
+    -runscratch /home/student/lblach/VDIC_2021_LB/lab02/INCA_libs_gui/run.lnx86.19.09.d/cadence212_160280
+
+csi-xmsim - CSI: *F,INTERR: INTERNAL EXCEPTION
+Observed simulation time : 0 FS + 0
+-----------------------------------------------------------------
+The tool has encountered an unexpected condition and must exit.
+Contact Cadence Design Systems customer support about this
+problem and provide enough information to help us reproduce it,
+including the logfile that contains this error message.
+  TOOL:	xmsim	19.09-s003
+  HOSTNAME: cadence212
+  OPERATING SYSTEM: Linux 2.6.32-754.33.1.el6.x86_64 #1 SMP Tue Aug 25 15:29:40 UTC 2020 x86_64
+  MESSAGE: sv_seghandler - trapno -1 addr(0x1e8)
+-----------------------------------------------------------------
+
+csi-xmsim - CSI: Cadence Support Investigation, recording details
+Error: Error processing callstack!
+csi-xmsim - CSI: investigation complete took 0.000 secs, send this file to Cadence Support

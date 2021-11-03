@@ -1,0 +1,89 @@
+Operating system: Linux
+                  0.0.0 Linux 2.6.32-754.33.1.el6.x86_64 #1 SMP Tue Aug 25 15:29:40 UTC 2020 x86_64
+CPU: x86
+     GenuineIntel family 6 model 85 stepping 4
+     1 CPU
+
+GPU: UNKNOWN
+
+Crash reason:  DUMP_REQUESTED
+Crash address: 0xf75778ab
+Process uptime: not available
+
+Thread 0 (crashed)
+ 0  libcbreakpad.so + 0x298ab
+    eip = 0xf75778ab   esp = 0xf728cf00   ebp = 0xf728cf88   ebx = 0xf75a8000
+    esi = 0xf75a8000   edi = 0xf728d038   eax = 0x00000000   ecx = 0x00000001
+    edx = 0x00000000   efl = 0x0c31fd9c
+    Found by: given as instruction pointer in context
+ 1  libcbreakpad.so + 0x27b74
+    eip = 0xf7575b74   esp = 0xf728cf90   ebp = 0xf728d0d8
+    Found by: previous frame's frame pointer
+ 2  xmsim!vserror + 0xad
+    eip = 0x090e5a5d   esp = 0xf728d0e0   ebp = 0xf728d3b8
+    Found by: previous frame's frame pointer
+ 3  xmsim!serror + 0x1a
+    eip = 0x090e6dda   esp = 0xf728d2e0   ebp = 0xf728d3b8   ebx = 0x00000000
+    esi = 0x000001e8   edi = 0x00000000
+    Found by: call frame info
+ 4  xmsim!sv_seghandler + 0x988
+    eip = 0x085411b8   esp = 0xf728d300   ebp = 0xf728d3b8   ebx = 0xf728d44c
+    esi = 0x000001e8   edi = 0x00000000
+    Found by: call frame info
+ 5  linux-gate.so + 0x410
+    eip = 0xf7762410   esp = 0xf728d3c0   ebp = 0x0c642180   ebx = 0x0a3a0000
+    esi = 0x00000000   edi = 0x0c642180
+    Found by: call frame info
+
+Loaded modules:
+0x0025d000 - 0x00286fff  libm-2.12.so  ???
+0x00ba8000 - 0x00bc8fff  ld-2.12.so  ???
+0x00bcb000 - 0x00d5efff  libc-2.12.so  ???
+0x00d64000 - 0x00d68fff  libdl-2.12.so  ???
+0x00d76000 - 0x00d8efff  libpthread-2.12.so  ???
+0x08048000 - 0x0a4d3fff  xmsim  ???  (main)
+0xf67b7000 - 0xf6828fff  libcpi.so  ???
+0xf6e2b000 - 0xf6e4afff  libml_uvm.so  ???
+0xf72d7000 - 0xf745ffff  libStrapNC.so  ???
+0xf7460000 - 0xf748bfff  libStrapNC.so  ???
+0xf7497000 - 0xf7528fff  libdcapi.so  ???
+0xf752a000 - 0xf7537fff  libnss_files-2.12.so  ???
+0xf754e000 - 0xf75a9fff  libcbreakpad.so  ???  (WARNING: No symbols, libcbreakpad.so, E534BA7ACB58B2D1AC43D31B76D3ED460)
+0xf75b4000 - 0xf75cffff  libgcc_s.so.1  ???
+0xf75d0000 - 0xf7746fff  libstdc++.so.6.0.22  ???
+0xf7762000 - 0xf7762fff  linux-gate.so  ???  (WARNING: No symbols, linux-gate.so, 12EDD0F84EF40F585E55D90F1E58712E0)
+
+******BACKTRACE*****
+vserror [0x90e5a5d]
+serror [0x90e6dda]
+sv_seghandler [0x85411b8]
+ResetObjResult.isra.0 [0x8bac010]
+Tcl_ResetResult [0x8bacbef]
+TclVhdlIsTrue [0x8bd8173]
+Tcl_GetBooleanFromObj [0x8b97ef1]
+TEBCresume [0x8b4fa76]
+TclNRRunCallbacks [0x8ab62b3]
+Tcl_ExprObj [0x8b418e5]
+Tcl_ExprBooleanObj [0x8ab6be3]
+stop_create [0x812385e]
+stop_create_cmd [0x812ce61]
+stop_command [0x812d2bd]
+cmd_wrapper [0x848aae2]
+TclInvokeStringCommand [0x8ab0e9c]
+Dispatch [0x8ab0925]
+TclNRRunCallbacks [0x8ab62b3]
+Tcl_EvalObjv [0x8ab632d]
+TclEvalEx [0x8ab88d3]
+Tcl_EvalEx [0x8ab8d2e]
+TclNREvalObjEx [0x8ab8ee5]
+TclEvalObjEx [0x8ab9144]
+Tcl_EvalObjEx [0x8ab9184]
+Tcl_RecordAndEvalObj [0x8b59d34]
+Tcl_RecordAndEval [0x8b59f14]
+cmd_tcl_run [0x848f401]
+wrap_cmd_tcl_run [0x80e0887]
+xncmain [0x80ef5ec]
+ncmain [0x80e25ff]
+main [0x97b3808]
+_start [0x8081d0d]
+******BACKTRACE END*****
