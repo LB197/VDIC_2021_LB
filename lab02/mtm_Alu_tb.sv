@@ -63,10 +63,10 @@ module mtm_Alu_tb();
 
 		coverpoint op_set {
 			// #A1 test all operations
-			bins A1_all_operations_and 	= and_op;
-			bins A1_all_operations_or 	= or_op;
-			bins A1_all_operations_add 	= add_op;
-			bins A1_all_operations_sub 	= sub_op;
+			bins A1_all_operations_and  = and_op;
+			bins A1_all_operations_or   = or_op;
+			bins A1_all_operations_add  = add_op;
+			bins A1_all_operations_sub  = sub_op;
 
 			// #A2 execute all operations after reset
 			bins A2_rst_opn_and[]       = (rst_op => and_op);
@@ -80,7 +80,7 @@ module mtm_Alu_tb();
 			bins A3_opn_rst_or        = (or_op  => rst_op);
 			bins A3_opn_rst_add       = (add_op => rst_op);
 			bins A3_opn_rst_sub       = (sub_op => rst_op);
-			
+
 		}
 
 	endgroup
@@ -96,49 +96,33 @@ module mtm_Alu_tb();
 		}
 
 		a_leg: coverpoint A_data {
-			bins zeros = {'h0000_0000};
-			bins others= {['h0000_0001:'hFFFF_FFFE]};
-			bins ones  = {'hFFFF_FFFF};
+			bins zeros 	= {'h0000_0000};
+			bins others	= {['h0000_0001:'hFFFF_FFFE]};
+			bins ones  	= {'hFFFF_FFFF};
 		}
 
 		b_leg: coverpoint B_data {
-			bins zeros = {'h0000_0000};
-			bins others= {['h0000_0001:'hFFFF_FFFE]};
-			bins ones  = {'hFFFF_FFFF};
+			bins zeros 	= {'h0000_0000};
+			bins others	= {['h0000_0001:'hFFFF_FFFE]};
+			bins ones  	= {'hFFFF_FFFF};
 		}
 
 		B_op_00_FF: cross a_leg, b_leg, all_ops {
 
-			// #B1 simulate all zero inwrong_no_data_framesput for all the operations
+			// #B1 Simulate all zeros on an input for all operations
 
-			bins B1_and_00          = binsof (all_ops) intersect {and_op} &&
-			(binsof (a_leg.zeros) || binsof (b_leg.zeros));
+			bins B1_and_00          = (binsof (all_ops) intersect {and_op} && (binsof (a_leg.zeros) || binsof (b_leg.zeros)));
+			bins B1_or_00          	= (binsof (all_ops) intersect {or_op}  && (binsof (a_leg.zeros) || binsof (b_leg.zeros)));
+			bins B1_add_00          = (binsof (all_ops) intersect {add_op} && (binsof (a_leg.zeros) || binsof (b_leg.zeros)));
+			bins B1_sub_00          = (binsof (all_ops) intersect {sub_op} && (binsof (a_leg.zeros) || binsof (b_leg.zeros)));
 
-			bins B1_or_00          = binsof (all_ops) intersect {or_op} &&
-			(binsof (a_leg.zeros) || binsof (b_leg.zeros));
+			// #B2 Simulate all ones on an input for all operations
 
-			bins B1_add_00          = binsof (all_ops) intersect {add_op} &&
-			(binsof (a_leg.zeros) || binsof (b_leg.zeros));
-
-			bins B1_sub_00          = binsof (all_ops) intersect {sub_op} &&
-			(binsof (a_leg.zeros) || binsof (b_leg.zeros));
-
-			// #B2 simulate all one input for all the operations
-
-			bins B2_and_FF          = binsof (all_ops) intersect {and_op} &&
-			(binsof (a_leg.ones) || binsof (b_leg.ones));
-
-			bins B2_or_FF          = binsof (all_ops)  intersect {or_op} &&
-			(binsof (a_leg.ones) || binsof (b_leg.ones));
-
-			bins B2_add_FF          = binsof (all_ops) intersect {add_op} &&
-			(binsof (a_leg.ones) || binsof (b_leg.ones));
-
-			bins B2_sub_FF          = binsof (all_ops) intersect {sub_op} &&
-			(binsof (a_leg.ones) || binsof (b_leg.ones));
-
-			ignore_bins others_only =
-			binsof(a_leg.others) && binsof(b_leg.others);
+			bins B2_and_FF          = (binsof (all_ops) intersect {and_op} && (binsof (a_leg.ones) || binsof (b_leg.ones)));
+			bins B2_or_FF          	= (binsof (all_ops) intersect {or_op}  && (binsof (a_leg.ones) || binsof (b_leg.ones)));
+			bins B2_add_FF          = (binsof (all_ops) intersect {add_op} && (binsof (a_leg.ones) || binsof (b_leg.ones)));
+			bins B2_sub_FF          = (binsof (all_ops) intersect {sub_op} && (binsof (a_leg.ones) || binsof (b_leg.ones)));
+			ignore_bins others_only = (binsof(a_leg.others) && binsof(b_leg.others));
 		}
 
 	endgroup
@@ -151,10 +135,11 @@ module mtm_Alu_tb();
 
 		coverpoint op_set {
 
+			// Number of data packets befor CTL packet
 			bins  C1_ctl_cor        = ctl_cor;
-
+			// OP code bits corruption
 			bins  C2_op_cor         = op_cor;
-
+			// Data bits corruption/CRC bits corruption
 			bins  C3_crc_cor        = crc_cor;
 		}
 	endgroup
@@ -171,11 +156,9 @@ module mtm_Alu_tb();
 		er_fl   = new();
 		forever begin : sample_cov
 			@(posedge clk);
-			if(doScoreboard || !rst_n) begin
 				oc.sample();
 				c_00_FF.sample();
 				er_fl.sample();
-			end
 		end
 	end : coverage
 
@@ -219,9 +202,9 @@ module mtm_Alu_tb();
 		bit [1:0] zero_ones;
 		zero_ones = 2'($urandom);
 		if (zero_ones == 2'b00)
-			return 32'h00000000;
+			return 32'h0000_0000;
 		else if (zero_ones == 2'b11)
-			return 32'hFFFFFFFF;
+			return 32'hFFFF_FFFF;
 		else
 			return 32'($urandom);
 	endfunction : get_data
@@ -361,32 +344,28 @@ module mtm_Alu_tb();
 					errors = {ERR_DATA, (ERR_CRC | ERR_BIT), ERR_OP};
 					send_data_to_input(A_data, B_data, op_set, ERR_CRC, ERR_DATA, ERR_BIT);
 					read_data_from_output(C, ctl);
-					doScoreboard = 1'b1;
 				end
 				3'b011 : begin : case_wrong_crc
-					ERR_CRC = 1'($random);
+					ERR_CRC = 1'($urandom);
 					ERR_BIT = !ERR_CRC;
 					errors = {ERR_DATA, (ERR_CRC | ERR_BIT), ERR_OP};
 					send_data_to_input(A_data, B_data, get_op_when_error(), ERR_CRC, ERR_DATA, ERR_BIT);
 					read_data_from_output(C, ctl);
-					doScoreboard = 1'b1;
 				end
 				3'b110 : begin : case_wrong_ctl
 					ERR_DATA = 1'b1;
 					errors = {ERR_DATA, (ERR_CRC | ERR_BIT), ERR_OP};
 					send_data_to_input(A_data, B_data, get_op_when_error(), ERR_CRC, ERR_DATA, ERR_BIT);
 					read_data_from_output(C, ctl);
-					doScoreboard = 1'b1;
 				end
 				default: begin : case_default
 					errors = {ERR_DATA, (ERR_CRC | ERR_BIT), ERR_OP};
 					send_data_to_input(A_data, B_data, op_set, ERR_CRC, ERR_DATA, ERR_BIT);
 					read_data_from_output(C, ctl);
-
-					doScoreboard = 1'b1;
 				end
 			endcase // case (op_set)
-			$strobe("%0t coverage: %.4g\%",$time, $get_coverage());
+			doScoreboard = 1'b1;
+//			$strobe("%0t coverage: %.4g\%",$time, $get_coverage());
 			if($get_coverage() == 100) break;
 		//------------------------------------------------------------------------------
 
