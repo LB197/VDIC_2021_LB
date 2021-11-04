@@ -23,9 +23,9 @@ module mtm_Alu_tb();
 	logic               sout; //TODO change to logic
 
 
-	bit [31:0] A_data, B_data, C, Cexp;
+	bit [31:0] A_data, B_data, C;
 	bit [2:0] errors;
-	bit [7:0] ctl_exp, ctl;
+	bit [7:0] ctl;
 	bit doScoreboard;
 	operation_t op_set;
 
@@ -69,10 +69,10 @@ module mtm_Alu_tb();
 			bins A1_all_operations_sub  = sub_op;
 
 			// #A2 execute all operations after reset
-			bins A2_rst_opn_and[]       = (rst_op => and_op);
-			bins A2_rst_opn_or[]        = (rst_op => or_op);
-			bins A2_rst_opn_add[]       = (rst_op => add_op);
-			bins A2_rst_opn_sub[]       = (rst_op => sub_op);
+			bins A2_rst_opn_and       = (rst_op => and_op);
+			bins A2_rst_opn_or        = (rst_op => or_op);
+			bins A2_rst_opn_add       = (rst_op => add_op);
+			bins A2_rst_opn_sub       = (rst_op => sub_op);
 
 
 			// #A3 execute reset after all operations
@@ -135,7 +135,7 @@ module mtm_Alu_tb();
 
 		coverpoint op_set {
 
-			// Number of data packets befor CTL packet
+			// Number of data packets before CTL packet
 			bins  C1_ctl_cor        = ctl_cor;
 			// OP code bits corruption
 			bins  C2_op_cor         = op_cor;
@@ -344,6 +344,7 @@ module mtm_Alu_tb();
 					errors = {ERR_DATA, (ERR_CRC | ERR_BIT), ERR_OP};
 					send_data_to_input(A_data, B_data, op_set, ERR_CRC, ERR_DATA, ERR_BIT);
 					read_data_from_output(C, ctl);
+					doScoreboard = 1'b1;
 				end
 				3'b011 : begin : case_wrong_crc
 					ERR_CRC = 1'($urandom);
@@ -351,20 +352,22 @@ module mtm_Alu_tb();
 					errors = {ERR_DATA, (ERR_CRC | ERR_BIT), ERR_OP};
 					send_data_to_input(A_data, B_data, get_op_when_error(), ERR_CRC, ERR_DATA, ERR_BIT);
 					read_data_from_output(C, ctl);
+					doScoreboard = 1'b1;
 				end
 				3'b110 : begin : case_wrong_ctl
 					ERR_DATA = 1'b1;
 					errors = {ERR_DATA, (ERR_CRC | ERR_BIT), ERR_OP};
 					send_data_to_input(A_data, B_data, get_op_when_error(), ERR_CRC, ERR_DATA, ERR_BIT);
 					read_data_from_output(C, ctl);
+					doScoreboard = 1'b1;
 				end
 				default: begin : case_default
 					errors = {ERR_DATA, (ERR_CRC | ERR_BIT), ERR_OP};
 					send_data_to_input(A_data, B_data, op_set, ERR_CRC, ERR_DATA, ERR_BIT);
 					read_data_from_output(C, ctl);
+					doScoreboard = 1'b1;
 				end
 			endcase // case (op_set)
-			doScoreboard = 1'b1;
 //			$strobe("%0t coverage: %.4g\%",$time, $get_coverage());
 			if($get_coverage() == 100) break;
 		//------------------------------------------------------------------------------
@@ -503,7 +506,8 @@ module mtm_Alu_tb();
 
 	always @(negedge clk) begin : scoreboard
 		if(doScoreboard) begin:verify_result
-
+			logic [31:0] Cexp;
+			logic [7:0] ctl_exp;
 			get_expected(A_data, B_data, op_set, errors, Cexp, ctl_exp);
 
 			CHK_RESULT: if((C === Cexp) && (ctl_exp === ctl)) begin
