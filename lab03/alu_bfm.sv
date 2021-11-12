@@ -192,7 +192,6 @@ interface alu_bfm;
 		case (op_set)
 			rst_op: begin : rst_op
 				reset_alu();
-				$display("Reset");
 			end
 			op_cor : begin : case_wrong_op
 				ERR_OP = 1'b1;

@@ -122,43 +122,12 @@ module scoreboard(alu_bfm bfm);
 		end
 	endtask : read_data_from_output
 
-
-
-//------------------------------------------------------------------------------
-
-//
-//  always @(negedge bfm.clk) begin
-//      @(bfm.data_created) get_expected(bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors, Cexp, ctl_exp);
-////      if(bfm.doScoreboard) begin:verify_result
-//      @(bfm.data_sent) begin : verify_result
-////          @(posedge bfm.clk) get_expected(bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors, Cexp, ctl_exp);
-////          @(negedge bfm.clk) read_data_from_output(C, ctl);
-//          read_data_from_output(C, ctl);
-//          CHK_RESULT: if((C === Cexp) && (ctl_exp ===ctl)) begin
-//       `ifdef DEBUG
-//              $display("%0t Test passed with correct data for A=%0d B=%0d op_set=%0d", $time, bfm.A_data, bfm.B_data, bfm.op_set);
-//       `endif
-//          end else if ((bfm.errors != 0) && (ctl_exp === ctl)) begin
-//       `ifdef DEBUG
-//              $display("%0t Test passed with correct error frame", $time, bfm.A_data, bfm.B_data, bfm.op_set);
-//       `endif
-//          end else begin
-//              $warning("%0t Test FAILED for A=%0d B=%0d op_set=%0d\nExpected: %d  received: %d ctl_exp: %b, ctl: %b",
-//                  $time, bfm.A_data, bfm.B_data, bfm.op_set , C, Cexp, ctl_exp, ctl);
-//              test_result <= "FAILED";
-//          end;
-//      end
-//  end
-
-//------------------------------------------------------------------------------
-
-
 	initial forever begin : scoreboard
 
-//			logic [31:0] C;
-//			logic [7:0] ctl;
-//			bit [31:0] Cexp;
-//			bit [7:0] ctl_exp;
+			logic [31:0] C;
+			logic [7:0] ctl;
+			bit [31:0] Cexp;
+			bit [7:0] ctl_exp;
 
 //      wait(bfm.data_created.triggered);
 //      begin:get_ecpected
@@ -166,28 +135,28 @@ module scoreboard(alu_bfm bfm);
 //          $display("2.1");
 //      end : get_ecpected
 			$display("3.1");
-			wait(bfm.data_sent.triggered);
-			@(negedge bfm.clk);
+			@(bfm.data_sent);
 			begin : output_data
 				$display("3.2");
 				get_expected(bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors, Cexp, ctl_exp);
+				$display("A: %b B: %b op_set: %b errors: %b", bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors,);
+//				@(negedge bfm.clk);
 				read_data_from_output(C, ctl);
 				$display("3.3");
-				if((bfm.C === Cexp) && (ctl_exp === bfm.ctl)) begin
-					$display("3.2");
-		   `ifdef DEBUG
+				if((C === Cexp) && (ctl_exp === ctl)) begin
+         `ifdef DEBUG
 					$display("%0t Test passed with correct data for A=%0d B=%0d op_set=%0d", $time, bfm.A_data, bfm.B_data, bfm.op_set);
-		   `endif
-				end else if ((bfm.errors != 0) && (ctl_exp === bfm.ctl)) begin
-		   `ifdef DEBUG
+         `endif
+				end else if ((bfm.errors != 0) && (ctl_exp === ctl)) begin
+         `ifdef DEBUG
 					$display("%0t Test passed with correct error frame", $time, bfm.A_data, bfm.B_data, bfm.op_set);
-		   `endif
+         `endif
 				end else begin
 					$warning("%0t Test FAILED for A=%0d B=%0d op_set=%0d\nExpected: %d  received: %d ctl_exp: %b, ctl: %b",
-						$time, bfm.A_data, bfm.B_data, bfm.op_set , Cexp, bfm.C, ctl_exp, bfm.ctl);
+						$time, bfm.A_data, bfm.B_data, bfm.op_set , Cexp, C, ctl_exp, ctl);
 				end;
 			end : output_data
-
+			$display("3.4");
 		end: scoreboard
 
 	final begin : finish_of_the_test

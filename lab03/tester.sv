@@ -45,6 +45,7 @@ module tester(alu_bfm bfm);
 			op_set = get_op();
 			A_data = get_data();
 			B_data = get_data();
+			$display("A: %b B: %b op_set: %b", A_data, B_data, op_set);
 //			-> bfm.data_created;
 //          bfm.send_op(A_data, B_data, op_set, C_data, ctl);
 			bfm.send_op(A_data, B_data, op_set);
