@@ -5,4 +5,3 @@ tester.sv
 coverage.sv
 scoreboard.sv
 top.sv
-//mtm_Alu_tb.sv

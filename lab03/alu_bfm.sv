@@ -1,24 +1,35 @@
 interface alu_bfm;
 	import alu_pkg::*;
 
-
 	bit                 clk;
 	bit                 rst_n;
 	bit                 sin;
 	logic               sout;
 
-	bit ERR_CRC, ERR_OP, ERR_DATA, ERR_BIT;
+//---------------------------------
+// Input related variables
+//---------------------------------
+
+	bit ERR_CRC, ERR_BIT;
 	bit [31:0] A_data, B_data;
 	bit [2:0] errors;
-	
-	logic [31:0] C;
-	logic [7:0] ctl;
-	
-
 	operation_t op_set;
 
-	event data_created;
-	event data_sent;
+//---------------------------------
+// Output related variables
+//---------------------------------
+
+	logic [31:0] C;
+	logic [7:0] ctl;
+
+//---------------------------------
+// Triggers
+//---------------------------------
+
+	bit doScoreboard;
+	bit doCoverage;
+	bit getExpectedValues;
+
 // ----------------------------------------
 // clk generation
 // ----------------------------------------
@@ -51,8 +62,8 @@ interface alu_bfm;
 		begin
 			@(negedge clk) sin = 1'b0;
 			@(negedge clk) sin = packet_type;
-			for (i = 0; i < 8; i = i + 1);
-			@(negedge clk) sin = input_8b_data[7-i];
+			for (i = 0; i < 8; i = i + 1)
+				@(negedge clk) sin = input_8b_data[7-i];
 			@(negedge clk) sin = 1'b1;
 		end
 	endtask : send_packet
@@ -89,7 +100,6 @@ interface alu_bfm;
 	endfunction : get_op_when_error
 
 //---------------------------------
-
 	task send_data_to_input(input bit [31:0] A, input bit [31:0] B, input operation_t op_code, input bit crc_error, input bit data_nr_error, input bit data_bit_error);
 		integer bit_data_error;
 
@@ -115,7 +125,7 @@ interface alu_bfm;
 	endtask : send_data_to_input
 
 //-----------------------------------------------------------------------------
-// CRC function for data[67:0] ,   crc[3:0]=1+x^1;+x^4;
+// CRC function for data[67:0] ,   crc[3:0]=1+x^1+x^4;
 //-----------------------------------------------------------------------------
 
 	// polynomial: x^4 + x^1 + 1
@@ -138,6 +148,9 @@ interface alu_bfm;
 		end
 	endfunction
 
+//------------------------------------------------------------------------------
+// xD
+//------------------------------------------------------------------------------
 
 	task read_packet (output logic [7:0] output_8b_data, output packet_type_t packet_type);
 		integer i;
@@ -173,54 +186,56 @@ interface alu_bfm;
 		end
 	endtask : read_data_from_output
 
+
 //------------------------------------------------------------------------------
 // xD
 //------------------------------------------------------------------------------
 
 
-//	task send_op(input bit[31:0] iA_data, input bit [31:0] iB_data, input operation_t iop, output logic [31:0] iC_data, output [7:0] ictl);
-  task send_op(input bit[31:0] iA_data, input bit [31:0] iB_data, input operation_t iop);
+
+	task send_op(input bit[31:0] iA_data, input bit [31:0] iB_data, input operation_t iop);
 		op_set = iop;
 		A_data = iA_data;
 		B_data = iB_data;
 
 		ERR_CRC  =  1'b0;
-		ERR_OP   =  1'b0;
-		ERR_DATA =  1'b0;
 		ERR_BIT  =  1'b0;
 
 		case (op_set)
-			rst_op: begin : rst_op
+			3'b111: begin : rst_op
 				reset_alu();
 			end
-			op_cor : begin : case_wrong_op
-				ERR_OP = 1'b1;
-				errors = {2'b00, ERR_OP};
-				send_data_to_input(iA_data, iB_data, op_set, ERR_CRC, ERR_DATA, ERR_BIT);
+			3'b010 : begin : case_wrong_op
+				errors = 3'b001;
+				send_data_to_input(iA_data, iB_data, op_set, 1'b0, 1'b0, 1'b0);
 			end : case_wrong_op
-			crc_cor : begin : case_wrong_crc
+				3'b011 : begin : case_wrong_crc
 				ERR_CRC = 1'($urandom);
 				ERR_BIT = !ERR_CRC;
-				errors = {1'b0, (ERR_CRC | ERR_BIT), 1'b0};
-				send_data_to_input(iA_data, iB_data, get_op_when_error(), ERR_CRC, ERR_DATA, ERR_BIT);
+				errors = 3'b010;
+				send_data_to_input(iA_data, iB_data, get_op_when_error(), ERR_CRC, 1'b0, ERR_BIT);
 			end : case_wrong_crc
-			ctl_cor : begin : case_wrong_ctl
-				ERR_DATA = 1'b1;
-				errors = {ERR_DATA, 2'b00};
-				send_data_to_input(iA_data, iB_data, get_op_when_error(), ERR_CRC, ERR_DATA, ERR_BIT);
+				3'b110 : begin : case_wrong_ctl
+				errors = 3'b100;
+				send_data_to_input(iA_data, iB_data, get_op_when_error(), 1'b0, 1'b1, 1'b0);
 			end : case_wrong_ctl
-			default: begin : case_default
-				errors = {3'b0};
-				send_data_to_input(iA_data, iB_data, op_set, ERR_CRC, ERR_DATA, ERR_BIT);
+				default: begin : case_default
+				errors = 3'b000;
+				send_data_to_input(iA_data, iB_data, op_set, 1'b0, 1'b0, 1'b0);
 			end : case_default
 		endcase
-		
-//		if (op_set != 3'b111) begin
-//			read_data_from_output(iC_data, ictl);
-//			C = iC_data;
-//			ctl = ictl;
-//		end
-		
+
+		doCoverage = 1'b1;
+
+		if(op_set != 3'b111) begin
+			getExpectedValues = 1'b1;
+			read_data_from_output(C, ctl);
+			doScoreboard = 1'b1;
+		end
+
+
+
 	endtask : send_op
+
 
 endinterface : alu_bfm

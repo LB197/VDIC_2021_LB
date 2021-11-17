@@ -15,7 +15,7 @@ module tester(alu_bfm bfm);
 			3'b100 : return op_cor;
 			3'b101 : return crc_cor;
 			3'b110 : return ctl_cor;
-			3'b111 : return rst_op;
+			default : return rst_op;
 		endcase // case (op_choice)
 	endfunction : get_op
 
@@ -36,21 +36,18 @@ module tester(alu_bfm bfm);
 		operation_t  op_set;
 		bit [31:0] A_data;
 		bit [31:0] B_data;
-		logic [31:0] C_data;
-		logic [7:0] ctl;
 
 		bfm.reset_alu();
 
 		repeat (1000) begin : random_loop
+
 			op_set = get_op();
 			A_data = get_data();
 			B_data = get_data();
-			$display("A: %b B: %b op_set: %b", A_data, B_data, op_set);
-//			-> bfm.data_created;
-//          bfm.send_op(A_data, B_data, op_set, C_data, ctl);
+
 			bfm.send_op(A_data, B_data, op_set);
-			@(negedge bfm.clk);
-			-> bfm.data_sent;
+
+
 		end : random_loop
 		$finish;
 	end

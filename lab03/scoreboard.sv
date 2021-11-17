@@ -1,6 +1,9 @@
 module scoreboard(alu_bfm bfm);
 	import alu_pkg::*;
 
+	bit [31:0] Cexp;
+	bit [7:0] ctl_exp;
+
 	string test_result = "PASSED";
 
 	task get_expected(
@@ -42,13 +45,13 @@ module scoreboard(alu_bfm bfm);
 		endcase
 		//---------------------------------------
 
-		if (errors > 0) begin
+		if (errors != 0) begin
 			if      (errors[2] == 1'b1) error_flags = {6'b100100};
 			else if (errors[1] == 1'b1) error_flags = {6'b010010};
-			else if (errors[0] == 1'b1) error_flags = {6'b001001};
-			else error_flags = {6'b000000};
-			parity = (1'b1 ^ error_flags[5] ^ error_flags[4] ^ error_flags[3] ^ error_flags[2] ^ error_flags[1] ^ error_flags[0]);
-		end
+			else error_flags = {6'b001001};
+		end 
+
+		parity = (1'b1 ^ error_flags[5] ^ error_flags[4] ^ error_flags[3] ^ error_flags[2] ^ error_flags[1] ^ error_flags[0]);
 
 		Zero = !(Cexp);
 		Negative = Cexp[31];
@@ -88,75 +91,35 @@ module scoreboard(alu_bfm bfm);
 	endfunction
 
 
-	task read_packet (output logic [7:0] output_8b_data, output packet_type_t packet_type);
-		integer i;
-		begin
-			wait(bfm.sout == 1'b0);
-			@(negedge bfm.clk);
-			@(negedge bfm.clk) packet_type = packet_type_t'(bfm.sout);
-			for (i = 0; i < 8; i = i + 1)
-				@(negedge bfm.clk) output_8b_data[7 - i] = bfm.sout;
-			wait(bfm.sout == 1'b1);
-		end
+	initial forever begin : get_expected_values
+			@(posedge bfm.getExpectedValues) begin
+				bfm.getExpectedValues = 1'b0;
 
-	endtask : read_packet
+				get_expected(bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors, Cexp, ctl_exp);
+				`ifdef DEBUG
+				$display("A: %b B: %b op_set: %b errors: %b", bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors);
+				`endif
+			end
+		end : get_expected_values
 
-	task read_data_from_output(output logic [31:0] C, output logic [7:0] ctl);
-		integer i;
-		logic [7:0] data_out[5];
-		packet_type_t data_type[5];
-
-		begin
-			read_packet(data_out[0], data_type[0]);
-			case (data_type[0])
-				DATA: begin// no_error
-					for (i = 1; i < 5; i = i + 1)
-						read_packet(data_out[i], data_type[i]);
-					C = {data_out[0], data_out[1], data_out[2], data_out[3]};
-					ctl = data_out[4][7:0];
-				end
-				CTL: begin// error
-					ctl = data_out[0][7:0];
-				end
-			endcase
-		end
-	endtask : read_data_from_output
 
 	initial forever begin : scoreboard
 
-			logic [31:0] C;
-			logic [7:0] ctl;
-			bit [31:0] Cexp;
-			bit [7:0] ctl_exp;
-
-//      wait(bfm.data_created.triggered);
-//      begin:get_ecpected
-//          get_expected(bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors, Cexp, ctl_exp);
-//          $display("2.1");
-//      end : get_ecpected
-			$display("3.1");
-			@(bfm.data_sent);
-			begin : output_data
-				$display("3.2");
-				get_expected(bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors, Cexp, ctl_exp);
-				$display("A: %b B: %b op_set: %b errors: %b", bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors,);
-//				@(negedge bfm.clk);
-				read_data_from_output(C, ctl);
-				$display("3.3");
-				if((C === Cexp) && (ctl_exp === ctl)) begin
-         `ifdef DEBUG
+			@(posedge bfm.doScoreboard) begin
+				bfm.doScoreboard = 1'b0;
+				if((bfm.C === Cexp) && (ctl_exp === bfm.ctl)) begin
+	   `ifdef DEBUG
 					$display("%0t Test passed with correct data for A=%0d B=%0d op_set=%0d", $time, bfm.A_data, bfm.B_data, bfm.op_set);
-         `endif
-				end else if ((bfm.errors != 0) && (ctl_exp === ctl)) begin
-         `ifdef DEBUG
+	   `endif
+				end else if ((bfm.errors != 0) && (ctl_exp === bfm.ctl)) begin
+	   `ifdef DEBUG
 					$display("%0t Test passed with correct error frame", $time, bfm.A_data, bfm.B_data, bfm.op_set);
-         `endif
+	   `endif
 				end else begin
 					$warning("%0t Test FAILED for A=%0d B=%0d op_set=%0d\nExpected: %d  received: %d ctl_exp: %b, ctl: %b",
-						$time, bfm.A_data, bfm.B_data, bfm.op_set , Cexp, C, ctl_exp, ctl);
+						$time, bfm.A_data, bfm.B_data, bfm.op_set , Cexp, bfm.C, ctl_exp, bfm.ctl);
 				end;
-			end : output_data
-			$display("3.4");
+			end
 		end: scoreboard
 
 	final begin : finish_of_the_test

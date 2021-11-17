@@ -13,6 +13,7 @@ package alu_pkg;
 
 	typedef enum bit {
 		DATA = 1'b0,
-		CTL  = 1'b1} packet_type_t;
+		CTL  = 1'b1
+	} packet_type_t;
 
 endpackage : alu_pkg

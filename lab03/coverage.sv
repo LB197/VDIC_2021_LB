@@ -104,10 +104,11 @@ module coverage(alu_bfm bfm);
 		c_00_FF = new();
 		er_fl   = new();
 		forever begin : sampling_block
-			@(posedge bfm.clk);
+			@(posedge bfm.doCoverage);
 			A_data      = bfm.A_data;
 			B_data      = bfm.B_data;
 			op_set 		= bfm.op_set;
+			bfm.doCoverage = 1'b0;
 			oc.sample();
 			c_00_FF.sample();
 			er_fl.sample();
