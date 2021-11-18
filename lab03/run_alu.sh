@@ -2,6 +2,8 @@
 
 source /cad/env/cadence_path.XCELIUM1909
 
-xrun -f dut_lab02.f \
--coverage all \
--covoverwrite
+./run_xrun.sh -c
+
+#xrun -f dut_lab03.f \
+#-coverage all \
+#-covoverwrite

@@ -15,7 +15,7 @@ module tester(alu_bfm bfm);
 			3'b100 : return op_cor;
 			3'b101 : return crc_cor;
 			3'b110 : return ctl_cor;
-			default : return rst_op;
+			3'b111 : return rst_op;
 		endcase // case (op_choice)
 	endfunction : get_op
 
