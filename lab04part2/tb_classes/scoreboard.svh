@@ -1,16 +1,14 @@
 class  scoreboard;
 	virtual alu_bfm bfm;
 
+	bit [31:0] Cexp;
+	bit [7:0] ctl_exp;
+
 	function new (virtual alu_bfm b);
 		bfm = b;
 	endfunction : new
 
-	bit [31:0] Cexp;
-	bit [7:0] ctl_exp;
-
-	string test_result = "PASSED";
-
-	protected function get_expected(
+	protected task get_expected(
 			input       bit [31:0]  A_data, B_data,
 			input       operation_t op_set,
 			input       bit [2:0] errors,
@@ -23,6 +21,7 @@ class  scoreboard;
 		bit [3:0]   flags_exp;
 		bit [2:0]   CRCexp;
 		bit [5:0]   error_flags;
+
 
 		Carry =     1'b0;
 		Overflow =  1'b0;
@@ -66,8 +65,7 @@ class  scoreboard;
 
 		if (errors) CTL_exp = {1'b1, error_flags, parity};
 		else CTL_exp = {1'b0, flags_exp, CRCexp};
-
-	endfunction
+	endtask
 //------------------------------------------------------------------------------
 
 
@@ -94,39 +92,41 @@ class  scoreboard;
 		end
 	endfunction
 
-	task execute();
-		forever begin : scoreboard
-
-			forever begin : get_expected_values
-				@(posedge bfm.getExpectedValues) begin
-					bfm.getExpectedValues = 1'b0;
-					get_expected(bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors, Cexp, ctl_exp);
+	task get_expected_results();
+		forever begin : get_expected_values
+			@(posedge bfm.getExpectedValues) begin
+				get_expected(bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors, Cexp, ctl_exp);
 				`ifdef DEBUG
-					$display("A: %b B: %b op_set: %b errors: %b", bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors);
+				$display("A: %b B: %b op_set: %b errors: %b", bfm.A_data, bfm.B_data, bfm.op_set, bfm.errors);
 				`endif
-				end
-			end : get_expected_values
-
-			@(posedge bfm.doScoreboard) begin
 				bfm.doScoreboard = 1'b0;
-				if((bfm.C === Cexp) && (ctl_exp === bfm.ctl)) begin
-	   `ifdef DEBUG
+			end
+		end : get_expected_values
+	endtask : get_expected_results
+
+	task execute();
+
+		fork
+			get_expected_results();
+		join_none
+
+		forever begin : scoreboard
+			@(posedge bfm.doScoreboard) begin
+				if((bfm.errors != 0) && (ctl_exp === bfm.ctl)) begin
+	 `ifdef DEBUG
+					$display("%0t Test passed with correct error frame", $time);
+	 `endif
+				end else assert ((bfm.C === Cexp) && (ctl_exp === bfm.ctl)) begin
+	 `ifdef DEBUG
 					$display("%0t Test passed with correct data for A=%0d B=%0d op_set=%0d", $time, bfm.A_data, bfm.B_data, bfm.op_set);
-	   `endif
-				end else if ((bfm.errors != 0) && (ctl_exp === bfm.ctl)) begin
-	   `ifdef DEBUG
-					$display("%0t Test passed with correct error frame", $time, bfm.A_data, bfm.B_data, bfm.op_set);
-	   `endif
+	 `endif
 				end else begin
 					$warning("%0t Test FAILED for A=%0d B=%0d op_set=%0d\nExpected: %d  received: %d ctl_exp: %b, ctl: %b",
 						$time, bfm.A_data, bfm.B_data, bfm.op_set , Cexp, bfm.C, ctl_exp, bfm.ctl);
+					bfm.test_result = "FAILED";
 				end;
+				bfm.getExpectedValues = 1'b0;
 			end
 		end: scoreboard
 	endtask : execute
-//  final begin : finish_of_the_test
-//      $display("Test %s.",test_result);
-//  end
-
-
 endclass : scoreboard

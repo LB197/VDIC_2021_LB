@@ -17,4 +17,8 @@ module top;
 		testbench_h.execute();
 	end
 
+final begin : finish_of_the_test
+	$display("___Test %s.___",bfm.test_result);
+end
+
 endmodule : top

@@ -1,6 +1,8 @@
 interface alu_bfm;
 	import alu_pkg::*;
 
+	string test_result = "PASSED";
+
 	bit                 clk;
 	bit                 rst_n;
 	bit                 sin;
@@ -232,9 +234,6 @@ interface alu_bfm;
 			read_data_from_output(C, ctl);
 			doScoreboard = 1'b1;
 		end
-
-
-
 	endtask : send_op
 
 

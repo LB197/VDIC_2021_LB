@@ -50,6 +50,7 @@ class tester;
 			B_data = get_data();
 
 			bfm.send_op(A_data, B_data, op_set);
+			wait (bfm.getExpectedValues == 0);
 
 		end : random_loop
 		$finish;

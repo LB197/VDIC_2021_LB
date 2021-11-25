@@ -26,6 +26,7 @@ class testbench;
             coverage_h.execute();
             scoreboard_h.execute();
             tester_h.execute();
+	        
         join_none
 
     endtask : execute
