@@ -1,0 +1,92 @@
+*** Message Type: info ***
+When: Thu Nov 25 17:08:51 CET 2021
+SimVision started.
+Version: TOOL:  simvision       19.09-s003
+User: lblach
+Host: cadence38
+Platform: Linux/x86_64/2.6.32-754.33.1.el6.x86_64
+Started: Thu Nov 25 17:08:51 CET 2021
+Command: /cad/XCELIUM1909/tools.lnx86/simvision/bin/simvision.exe -connect dc:cadence38:60831 -nocopyright
+Work Directory: /home/student/lblach/VDIC_2021_LB/lab04part2
+ 
+*** Message Type: info ***
+When: Thu Nov 25 17:08:52 CET 2021
+Create browser window: "Design Browser 1"
+ 
+*** Message Type: info ***
+When: Thu Nov 25 17:08:53 CET 2021
+Create console window: "Console"
+ 
+*** Message Type: info ***
+When: Thu Nov 25 17:08:53 CET 2021
+Connect to Simulator
+      Design: worklib.top:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:     xmsim   19.09-s003
+        User: lblach
+        Host: cadence38
+Time Started: Thu Nov 25 17:08:51 CET 2021
+  Process ID: 14413
+   Directory: /home/student/lblach/VDIC_2021_LB/lab04part2
+     Command: xrun -F dut_lab04part2.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -l xrun_gui.log
+
+ 
+*** Message Type: info ***
+When: Thu Nov 25 17:08:54 CET 2021
+Create utility window: "Properties"
+ 
+*** Message Type: info ***
+When: Thu Nov 25 17:09:06 CET 2021
+Create waveform window: "Waveform 1"
+ 
+*** Message Type: info ***
+When: Thu Nov 25 17:09:19 CET 2021
+Delete waveform window: "Waveform 1"
+ 
+*** Message Type: info ***
+When: Thu Nov 25 17:15:56 CET 2021
+Exit XM-Sim: user
+      Design: worklib.top:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:     xmsim   19.09-s003
+        User: lblach
+        Host: cadence38
+Time Started: Thu Nov 25 17:08:51 CET 2021
+  Process ID: 14413
+   Directory: /home/student/lblach/VDIC_2021_LB/lab04part2
+     Command: xrun -F dut_lab04part2.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -l xrun_gui.log
+
+ 
+*** Message Type: error ***
+When: Thu Nov 25 17:15:56 CET 2021
+XM-Sim Crashed:
+      Design: worklib.top:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:     xmsim   19.09-s003
+        User: lblach
+        Host: cadence38
+Time Started: Thu Nov 25 17:08:51 CET 2021
+  Process ID: 14413
+   Directory: /home/student/lblach/VDIC_2021_LB/lab04part2
+     Command: xrun -F dut_lab04part2.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -l xrun_gui.log
+      Design: worklib.top:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:        xmsim   19.09-s003
+        User: lblach
+        Host: cadence38
+Time Started: Thu Nov 25 17:08:51 CET 2021
+  Process ID: 14413
+   Directory: /home/student/lblach/VDIC_2021_LB/lab04part2
+     Command: xrun -F dut_lab04part2.f -v93 +nowarnDSEM2009 +nowarnDSEMEL +nowarnCGDEFN -xmlibdirname INCA_libs_gui +access+r +gui +overwrite -nocopyright -l xrun_gui.log
+
+Outstanding STRAP Requests:
+        strap::report enable out
+ 
+*** Message Type: info ***
+When: Thu Nov 25 17:15:56 CET 2021
+SimVision Exit.
+ 
