@@ -122,13 +122,13 @@ class scoreboard extends uvm_component;
 		forever begin : self_checker
 			@(posedge bfm.doScoreboard) begin
 				if((bfm.errors != 0) && (ctl_exp === bfm.ctl)) begin
-//	 `ifdef DEBUG
+	 `ifdef DEBUG
 					$display("%0t Test passed with correct error frame", $time);
-//	 `endif
+	 `endif
 				end else assert ((bfm.C === Cexp) && (ctl_exp === bfm.ctl)) begin
-//	 `ifdef DEBUG
+	 `ifdef DEBUG
 					$display("%0t Test passed with correct data for A=%0d B=%0d op_set=%0d", $time, bfm.A_data, bfm.B_data, bfm.op_set);
-//	 `endif
+	 `endif
 				end else begin
 					$warning("%0t Test FAILED for A=%0d B=%0d op_set=%0d\nExpected: %d  received: %d ctl_exp: %b, ctl: %b",
 						$time, bfm.A_data, bfm.B_data, bfm.op_set , Cexp, bfm.C, ctl_exp, bfm.ctl);

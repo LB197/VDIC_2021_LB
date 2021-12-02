@@ -16,7 +16,7 @@
 
 #------------------------------------------------------------------------------
 # The list of tests; in GUI mode only the first test is started.
-TESTS=(random_test add_test);
+TESTS=(random_test corner_val_test);
 #------------------------------------------------------------------------------
 # Default .f file
 FFILE="dut_lab05.f"
