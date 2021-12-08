@@ -230,6 +230,7 @@ interface alu_bfm;
         if(op_set != 3'b111) begin
             read_data_from_output(C, ctl, done);
         end
+        #10;
     endtask : send_op
 
 

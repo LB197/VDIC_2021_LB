@@ -17,12 +17,12 @@ class corner_val_tester extends random_tester;
 
 	`uvm_component_utils(corner_val_tester)
 
-	function bit[31:0] get_corner_values();
+	function bit[31:0] get_data();
 		bit zero_ones;
 		zero_ones = 1'($random);
-		if (zero_ones == 1'b1) return 32'h1111_1111;
+		if (zero_ones == 1'b1) return 32'hFFFF_FFFF;
 		else return 32'h0000_0000;
-	endfunction : get_corner_values
+    endfunction : get_data
 
 	function new (string name, uvm_component parent);
 		super.new(name, parent);
