@@ -10,3 +10,5 @@ set_expr_coverable_statements -all
 
 set_toggle_scoring -sv_enum
 set_covergroup -new_instance_reporting -per_instance_default_one
+
+set_toggle_scoring -sv_enum -sv_struct_with_enum

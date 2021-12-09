@@ -1,7 +1,7 @@
 virtual class base_tester extends uvm_component;
         integer i;
 
-    `uvm_component_utils(base_tester)
+//    `uvm_component_utils(base_tester)
 
     uvm_put_port #(command_s) command_port;
 
