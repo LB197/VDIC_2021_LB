@@ -5,8 +5,7 @@ class result_transaction extends uvm_transaction;
 //------------------------------------------------------------------------------
 
     bit [39:0] result;
-    bit [31:0] result_data;
-    bit [7:0] result_flags;
+    bit [7:0] result_ctl;
     operation_t op;
 
 //------------------------------------------------------------------------------
@@ -30,8 +29,7 @@ class result_transaction extends uvm_transaction;
             `uvm_fatal("RESULT TRANSACTION","Failed cast in do_copy");
         op = copied_transaction_h.op;
         result = copied_transaction_h.result;
-        result_data = copied_transaction_h.result[39:8];
-        result_flags = copied_transaction_h.result[7:0];
+        result_ctl = copied_transaction_h.result[7:0];
     endfunction : do_copy
 
     function string convert2string();
@@ -48,26 +46,16 @@ class result_transaction extends uvm_transaction;
             `uvm_fatal("RESULT TRANSACTION","Tried to compare null transaction");
         same = super.do_compare(rhs, comparer);
         $cast(RHS, rhs);
-        
-       if((RHS.op == and_op) || (RHS.op == or_op) || (RHS.op == add_op) || (RHS.op == sub_op)) begin    
-        same = (result == RHS.result) && same;
-        return same;    
-           
-       end else if ((RHS.op == op_cor) || (RHS.op == crc_cor) || (RHS.op == ctl_cor)) begin
-           
-        same = (result_flags == RHS.result_flags) && same;
-        $display("%b --- %b",result_flags, RHS.result_flags);
-        return same;
-           
-       end else return 0;
 
-//       if ((RHS.op == op_cor) || (RHS.op == crc_cor) || (RHS.op == ctl_cor)) begin
-//        same = (result_flags == RHS.result_flags) && same;
-//        return same;
-//      end else if((RHS.op == and_op) || (RHS.op == or_op) || (RHS.op == add_op) || (RHS.op == sub_op)) begin    
-//        same = (result == RHS.result) && same;
-//        return same;         
-//       end else return 0;
+        if((RHS.op == and_op) || (RHS.op == or_op) || (RHS.op == add_op) || (RHS.op == sub_op)) begin
+            same = (result == RHS.result) && same;
+            return same;
+        end else if ((RHS.op == op_cor) || (RHS.op == crc_cor) || (RHS.op == ctl_cor)) begin
+            same = (result_ctl == RHS.result_ctl) && same;
+            return same;
+        end else return 0;
+
+
     endfunction : do_compare
 
 endclass : result_transaction

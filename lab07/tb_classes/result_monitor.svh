@@ -36,7 +36,7 @@ class result_monitor extends uvm_component;
         result_transaction result_t;
         result_t        = new("result_t");
         result_t.result = r;
-        result_t.result_flags = r[7:0];
+        result_t.result_ctl = r[7:0];
         result_t.op = op;
         ap.write(result_t);
     endfunction : write_to_monitor

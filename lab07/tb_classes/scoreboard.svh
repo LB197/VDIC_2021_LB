@@ -129,8 +129,7 @@ class scoreboard extends uvm_subscriber #(result_transaction);
         end
         predicted.op = cmd.op;
         predicted.result = result;
-        predicted.result_data = Cexp;
-        predicted.result_flags = ctl_exp;
+        predicted.result_ctl = ctl_exp;
         return predicted;
 
     endfunction : get_expected
