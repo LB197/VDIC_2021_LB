@@ -32,10 +32,12 @@ class result_monitor extends uvm_component;
 // access function for BFM
 //------------------------------------------------------------------------------
 
-    function void write_to_monitor(logic [39:0] r);
+    function void write_to_monitor(logic [39:0] r, operation_t op);
         result_transaction result_t;
         result_t        = new("result_t");
         result_t.result = r;
+        result_t.result_flags = r[7:0];
+        result_t.op = op;
         ap.write(result_t);
     endfunction : write_to_monitor
 

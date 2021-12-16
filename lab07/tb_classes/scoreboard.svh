@@ -77,7 +77,7 @@ class scoreboard extends uvm_subscriber #(result_transaction);
         result_transaction predicted;
 
         predicted = new("predicted");
-
+        
         Carry =     1'b0;
         Overflow =  1'b0;
         Negative =  1'b0;
@@ -121,14 +121,16 @@ class scoreboard extends uvm_subscriber #(result_transaction);
             CRCexp = calculate_CRCout(Cexp, flags_exp);
             ctl_exp = {1'b0, flags_exp, CRCexp};
             result = {Cexp, ctl_exp};
-            predicted.result = result;
         end else if ((cmd.op == op_cor) || (cmd.op == crc_cor) || (cmd.op == ctl_cor)) begin
+            Cexp = 32'hFFFF_FFFF;
             parity = (1'b1 ^ error_flags[5] ^ error_flags[4] ^ error_flags[3] ^ error_flags[2] ^ error_flags[1] ^ error_flags[0]);
             ctl_exp = {1'b1, error_flags, parity};
-            result = {32'hFFFF_FFFF, ctl_exp};
-            predicted.result = result;
+            result = {Cexp, ctl_exp};
         end
-
+        predicted.op = cmd.op;
+        predicted.result = result;
+        predicted.result_data = Cexp;
+        predicted.result_flags = ctl_exp;
         return predicted;
 
     endfunction : get_expected
@@ -176,24 +178,12 @@ class scoreboard extends uvm_subscriber #(result_transaction);
             " ==>  Actual " , t.convert2string(),
             "/Predicted ",predicted.convert2string()};
 
-        if((cmd.op == and_op) || (cmd.op == or_op) || (cmd.op == add_op) || (cmd.op == sub_op)) begin
             if (!predicted.compare(t)) begin
                 `uvm_error("SELF CHECKER", {"FAIL: ",data_str})
                 tr = TEST_FAILED;
             end
             else
                 `uvm_info ("SELF CHECKER", {"PASS: ", data_str}, UVM_HIGH)
-        end else if ((cmd.op == op_cor) || (cmd.op == crc_cor) || (cmd.op == ctl_cor)) begin
-            pred_ctl = predicted.result[7:0];
-            act_ctl = t.result[7:0];
-            assert (pred_ctl === act_ctl) begin
-                `uvm_info ("SELF CHECKER", {"PASS: ", data_str ,"In that case only last byte of result matters"}, UVM_HIGH)
-            end else `uvm_error("SELF CHECKER", {"FAIL: ",data_str ,"In that case only last byte of result matters"})
-        end else
-            `uvm_error("SELF CHECKER", {"Where the heck am I? FAIL: ",data_str})
-
-
-
     endfunction : write
 
 //------------------------------------------------------------------------------

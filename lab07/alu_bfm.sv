@@ -294,7 +294,7 @@ interface alu_bfm;
     initial begin : result_monitor_thread
         forever begin : result_monitor
             @(posedge done) ;
-            result_monitor_h.write_to_monitor(result);
+            result_monitor_h.write_to_monitor(result, op_set);
         end : result_monitor
     end : result_monitor_thread
 
