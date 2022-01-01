@@ -44,7 +44,7 @@ module alu_tester_module(alu_bfm bfm);
             A_data = get_data();
             B_data = get_data();
             bfm.send_op(A_data, B_data, op_set, result);
-            #500;
+//            #500;
         end : random_loop
    end//initial begin
 endmodule : alu_tester_module
